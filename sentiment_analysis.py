@@ -1,4 +1,3 @@
-
 from keras.models import load_model
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -6,12 +5,13 @@ import numpy as np
 import pandas as pd
 
 def classify_sentiment(df):
-    model = load_model('models/sentiment.h5')
+    model = load_model('models/1.h5')
     df = df.reset_index(drop=True)
     preprocessed_data = preprocess_data(df)
     y_pred = model.predict(preprocessed_data)
 
     df['SENTIMENT'] = 1
+    print(y_pred)
     for index,row in df.iterrows():
         df.at[index,'SENTIMENT'] = np.argmax(y_pred[index])
 

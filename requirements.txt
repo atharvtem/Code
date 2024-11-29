@@ -7,3 +7,5 @@ scikit-learn
 xgboost
 tensorflow
 keras
+plotly
+google-generativeai
