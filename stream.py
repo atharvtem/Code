@@ -4,6 +4,7 @@ from fake_classification import classify_fake
 from sentiment_analysis import classify_sentiment
 import pandas as pd
 import plotly.express as px
+import google.generativeai as genai
 
 def scrape_data(url):
     scraped_data = extractReviews(url)
@@ -35,16 +36,22 @@ def star_maker(rating):
 def summarize_sentiment(actual_rating,modified_rating,positive,negative,neutral,fake):
     prompt = f"A product has average rating of {actual_rating} but when we identified fake reviews the rating is adjusted to {modified_rating} and the distribution of review sentiments is positive:{positive}%, negative:{negative}% and neutral:{neutral}%. Also the proportion of fake reviews is {fake}%. So give me the overall summary of the product review in 4-5 lines. Also according to proportion of fake reviews include the key aspect of reliability of the product in the summary. Dont include numbers in the summary. Explain it in simple words."
 
-    import google.generativeai as genai
-
     genai.configure(api_key="AIzaSyAnGYRZkvlXmiHpdL96VYBKPQEm124ceh4")
     model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(prompt)
     
 
-
     # summary = "We have enough reviews to get a clear sense of the product's sentiment. Most reviews are genuine, with many marked as verified purchases, showing reliability. Overall, the sentiment is mostly positive, with only a few negative comments. After removing fake reviews, the adjusted rating is still close to the original, so the product is reliable and well-rated."
     return response.text
+
+def get_sentiment(num):
+    if num == 0:
+        return "Negative"
+    elif num == 1:
+        return "Neutral"
+    else:
+        return "Positive"
+
 
 col1, col2 = st.columns([2, 1])  
 
@@ -82,6 +89,7 @@ if get_button:
 
         sentiment_counts = sentiment_anal['SENTIMENT'].value_counts().reset_index()
         sentiment_counts.columns = ['Sentiment', 'Percentage']
+        sentiment_counts["Sentiment"] = sentiment_counts["Sentiment"].apply(get_sentiment)
 
         # Plotting the graphs
         fig2=px.bar(review_count , x="Review_Type" , y="Percentage" , title="Fake vs Genuine",  
