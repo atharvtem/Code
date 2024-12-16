@@ -1,4 +1,4 @@
-# **README: Intelligent Product Review Sentiment Analysis Using Advanced Deep Learning Techniques**
+# **Intelligent Product Review Sentiment Analysis Using Advanced Deep Learning Techniques**
 
 ## **Project Overview**
 This project develops an intelligent sentiment analysis system designed to process and analyze product reviews from e-commerce platforms. Utilizing advanced deep learning models such as Recurrent Neural Networks (RNNs) and Transformers, the system automates sentiment classification to provide businesses with actionable insights into customer feedback.
